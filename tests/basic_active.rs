@@ -1,6 +1,4 @@
 #[cfg(test)]
-extern crate actix;
-use actix::prelude::*;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::sync::broadcast;
@@ -71,7 +69,6 @@ impl TestServer {
     }
 }
 
-//#[tokio::test]
 #[actix_rt::test]
 async fn failure_to_connect_due_to_no_listener() {
     let target_address = "127.0.0.1:9090";
@@ -86,18 +83,13 @@ async fn failure_to_connect_due_to_no_listener() {
     }
 }
 
-//#[tokio::test]
 #[actix_rt::test]
 async fn simple_server_client_success() {
-    //let system = System::new(); //"single-arbiter-example");
-
     let target_address = "127.0.0.1:9091";
     let addr = target_address.parse::<SocketAddr>().unwrap();
 
     let mut server = TestServer::new(addr).await;
     let mut client = Socket::connect(addr).await.unwrap();
-
-    //system.run();
 
     assert_eq!((), client.send(b"client-origin message").await.unwrap());
 
@@ -118,7 +110,6 @@ async fn simple_server_client_success() {
     }
 }
 
-//#[tokio::test]
 #[actix_rt::test]
 #[should_panic]
 async fn simple_connection_lifetime() {
